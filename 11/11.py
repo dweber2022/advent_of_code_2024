@@ -9,25 +9,6 @@ def read_file(filename):
         content = f.read().strip()
         return content
 
-class DoublyLinkedNode:
-    def __init__(self, val):
-        self.val = val
-        self.before = None
-        self.after = None
-
-    def __str__(self):
-        return str(self.val)
-
-def construct_dll(l):
-    before_root = DoublyLinkedNode(-1)
-    root = before_root
-    for num in l:
-        node = DoublyLinkedNode(num)
-        node.before = root
-        root.after = node
-        root = node
-    return before_root.after
-
 def get_num_digits(num):
     if (num == 0):
         return 1
@@ -74,32 +55,22 @@ def get_num_stones_after_blinks(num_blinks, stone_number):
     else:
         return get_num_stones_after_blinks(num_blinks-1, stone_number*2024)
 
-def print_stones(start_stone):
-    while (start_stone is not None):
-        print(start_stone, end=" ")
-        start_stone = start_stone.after
-    print("\n\n")
-
 def part1(filename):
     content = read_file(filename)
     stones = parse.parse_list(content, int)
-    start_stone = construct_dll(stones)
     NUM_BLINKS = 25
     num_stones = 0
-    while (start_stone is not None):
-        num_stones += get_num_stones_after_blinks(NUM_BLINKS, start_stone.val)
-        start_stone = start_stone.after
+    for stone_number in stones:
+        num_stones += get_num_stones_after_blinks(NUM_BLINKS, stone_number)
     return num_stones
 
 def part2(filename):
     content = read_file(filename)
     stones = parse.parse_list(content, int)
-    start_stone = construct_dll(stones)
     NUM_BLINKS = 75
     num_stones = 0
-    while (start_stone is not None):
-        num_stones += get_num_stones_after_blinks(NUM_BLINKS, start_stone.val)
-        start_stone = start_stone.after
+    for stone_number in stones:
+        num_stones += get_num_stones_after_blinks(NUM_BLINKS, stone_number)
     return num_stones
 
 def main(filename):
