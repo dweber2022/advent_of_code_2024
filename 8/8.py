@@ -71,7 +71,7 @@ def is_in_bounds(bounds, location):
 
 def part1(filename):
     content = read_file(filename)
-    matrix = [row[0] for row in parse.parse_matrix(content)]
+    matrix = parse.parse_matrix(content, col_delim="")
     m = len(matrix)
     n = len(matrix[0])
     antenna_locations = get_antenna_locations(matrix)
@@ -80,7 +80,7 @@ def part1(filename):
 
 def part2(filename):
     content = read_file(filename)
-    matrix = [row[0] for row in parse.parse_matrix(content)]
+    matrix = parse.parse_matrix(content, col_delim="")
     m = len(matrix)
     n = len(matrix[0])
     antenna_locations = get_antenna_locations(matrix)

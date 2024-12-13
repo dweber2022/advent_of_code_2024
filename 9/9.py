@@ -135,7 +135,7 @@ def pprint(message):
     print("="*50)
  
 if __name__ == "__main__":
-    day = "8"
+    day = "9"
     small_filename = f"{day}.small.in"
     filename = f"{day}.in"
     Test.set_filename(small_filename)

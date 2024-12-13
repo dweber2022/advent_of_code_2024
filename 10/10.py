@@ -58,7 +58,7 @@ def get_trailends(matrix, trailhead):
 
 def part1(filename):
     content = read_file(filename)
-    matrix = [list(map(int, list(row[0]))) for row in parse.parse_matrix(content)]
+    matrix = parse.parse_matrix(content, int, col_delim="")
     trailheads = get_trailheads(matrix)
     all_trailends = list(map(lambda trailhead: get_trailends(matrix, trailhead), trailheads))
     num_trailends = sum(map(len, all_trailends))
@@ -67,7 +67,7 @@ def part1(filename):
 
 def part2(filename):
     content = read_file(filename)
-    matrix = [list(map(int, list(row[0]))) for row in parse.parse_matrix(content)]
+    matrix = parse.parse_matrix(content, int, col_delim="")
     trailheads = get_trailheads(matrix)
     all_trailend_ratings = map(lambda p: sum(p.values()), map(lambda trailhead: get_trailends(matrix, trailhead), trailheads))
     sum_trailend_ratings = sum(all_trailend_ratings)

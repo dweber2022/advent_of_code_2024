@@ -1,8 +1,12 @@
 def parse_list(content, func=None, delim=" "):
-    if (func is None):
-        content_as_list = content.split(delim)
+    if (delim ==  ""):
+        content = list(content)
     else:
-        content_as_list = list(map(func, content.split(delim)))
+        content = content.split(delim)
+    if (func is None):
+        content_as_list = content
+    else:
+        content_as_list = list(map(func, content))
     return content_as_list
 
 def parse_matrix(content, func=None, col_delim=" ", row_delim="\n"):
