@@ -1,4 +1,4 @@
-from aoclib import parse, convert
+from aoclib import parse, convert, graph
 from collections import deque
 import itertools as it
 import functools as ft
@@ -9,20 +9,6 @@ def read_file(filename):
         content = f.read().strip()
         return content
 
-def get_pos_of_obj(matrix, obj):
-    for (pos, val) in matrix.items():
-        if (val == obj):
-            return pos
-
-def get_direction_delta(direction):
-    DIRECTION_TO_DELTA = {
-        "^": (-1, 0),
-        ">": (0, 1),
-        "v": (1, 0),
-        "<": (0, -1)
-    }
-    return DIRECTION_TO_DELTA[direction]
-
 def get_direction_rotations(direction):
     DIRECTION_TO_ROTATIONS = {
         "^": ("<", ">"),
@@ -31,9 +17,6 @@ def get_direction_rotations(direction):
         "<": ("v", "^")
     }
     return DIRECTION_TO_ROTATIONS[direction]
-
-def get_new_pos(pos, delta):
-    return (pos[0]+delta[0], pos[1]+delta[1])
 
 def is_in_bounds(matrix, pos):
     WALL = "#"
@@ -60,8 +43,8 @@ def get_lowest_score(matrix, start_pos, end_pos):
             continue
         visited.add((pos, direction))
         visited_to_score[(pos, direction)] = score
-        delta = get_direction_delta(direction)
-        new_pos = get_new_pos(pos, delta)
+        delta = graph.get_direction_delta(direction)
+        new_pos = graph.get_new_pos(pos, delta)
         if (is_in_bounds(matrix, new_pos)):
             payload = (new_pos, direction, score+1)
             queue.append(payload)
@@ -94,8 +77,8 @@ def get_lowest_paths(matrix, lowest_score, start_pos, end_pos):
             continue
         visited.add((pos, direction))
         visited_to_score[(pos, direction)] = score
-        delta = get_direction_delta(direction)
-        new_pos = get_new_pos(pos, delta)
+        delta = graph.get_direction_delta(direction)
+        new_pos = graph.get_new_pos(pos, delta)
         if (is_in_bounds(matrix, new_pos)):
             payload = (new_pos, direction, score+1, path+[pos])
             queue.append(payload)
@@ -110,8 +93,8 @@ def part1(filename):
     matrix = convert.convert_to_dict_matrix(matrix)
     START = "S"
     END = "E"
-    start_pos = get_pos_of_obj(matrix, START)
-    end_pos = get_pos_of_obj(matrix, END)
+    start_pos = graph.get_pos_of_obj(matrix, START)
+    end_pos = graph.get_pos_of_obj(matrix, END)
     return get_lowest_score(matrix, start_pos, end_pos)
 
 def part2(filename):
@@ -120,8 +103,8 @@ def part2(filename):
     matrix = convert.convert_to_dict_matrix(matrix)
     START = "S"
     END = "E"
-    start_pos = get_pos_of_obj(matrix, START)
-    end_pos = get_pos_of_obj(matrix, END)
+    start_pos = graph.get_pos_of_obj(matrix, START)
+    end_pos = graph.get_pos_of_obj(matrix, END)
     lowest_score = get_lowest_score(matrix, start_pos, end_pos)
     lowest_paths = get_lowest_paths(matrix, lowest_score, start_pos, end_pos)
     lowest_paths_tiles = set()
